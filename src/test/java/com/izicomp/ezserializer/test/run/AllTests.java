@@ -92,7 +92,7 @@ public class AllTests {
 			person.getAdressList().add(workAdress);
 
 			person.setMainAddress(houseAdress);
-
+			
 			EzSerializer ezSerializer = new EzSerializer();
 			String json = ezSerializer.toJson(person);
 

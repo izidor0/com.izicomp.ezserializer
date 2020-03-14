@@ -7,7 +7,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -34,7 +33,7 @@ public class ReflectionUtils {
 	}
 
 	public static void clearCylicReferences(Object object) {
-		clearCylicReferences(object, new LinkedHashSet<String>(), false);
+		clearCylicReferences(object, new HashSet<String>(), false);
 	}
 
 	private static void clearCylicReferences(Object object, Set<String> readedReferences, boolean readingGroup) {
@@ -50,13 +49,13 @@ public class ReflectionUtils {
 		try {
 			if (isList(object)) {
 				for (Object objectListItem : parseList(object)) {
-					putReference(readedReferences, objectListItem);
+					putReference(readedReferences, object, objectListItem);
 					clearCylicReferences(objectListItem, readedReferences, true);
 				}
 
 			} else if (isMap(object)) {
 				for (Object objectListItem : ((Map) object).values()) {
-					putReference(readedReferences, objectListItem);
+					putReference(readedReferences, object, objectListItem);
 					clearCylicReferences(objectListItem, readedReferences, true);
 				}
 				
@@ -65,7 +64,7 @@ public class ReflectionUtils {
 				while (iterator.hasNext()) {
 					
 					Object objectListItem = iterator.next();
-					putReference(readedReferences, objectListItem);
+					putReference(readedReferences, object, objectListItem);
 					clearCylicReferences(objectListItem, readedReferences, true);
 				}
 
@@ -74,20 +73,14 @@ public class ReflectionUtils {
 
 					field.setAccessible(true);
 					Object fieldValue = field.get(object);
-
-					if (isList(fieldValue) && !alreadyRead(fieldValue, readedReferences, readingGroup)) {
+					
+					if ((isList(fieldValue) || isMap(fieldValue) || isIterator(fieldValue)) && !alreadyRead(fieldValue, readedReferences, readingGroup)) {
 						clearCylicReferences(fieldValue, readedReferences, true);
-
-					} else if (isMap(fieldValue) && !alreadyRead(fieldValue, readedReferences, readingGroup)) {
-						clearCylicReferences(fieldValue, readedReferences, true);
-
-					} else if (isIterator(fieldValue) && !alreadyRead(fieldValue, readedReferences, readingGroup)) {
-						clearCylicReferences(fieldValue, readedReferences, true);
-
-					} else if (isObject(fieldValue) && !alreadyRead(fieldValue, readedReferences, readingGroup)) {
+					
+					} else if(isObject(fieldValue) && !alreadyRead(fieldValue, readedReferences, readingGroup)) {
 						clearCylicReferences(fieldValue, readedReferences, false);
-
-					} else if (isObject(fieldValue) && alreadyRead(fieldValue, readedReferences, readingGroup)) {
+					
+					} else if(isObject(fieldValue) && alreadyRead(fieldValue, readedReferences, readingGroup)) {
 						field.set(object, null);
 					}
 				}
@@ -99,10 +92,10 @@ public class ReflectionUtils {
 	
 	private static void loadLazyFields(Object object, Set<String> readedReferences) {
 		
-		if (readedReferences.contains(object.toString())) {
+		if (readedReferences.contains(getObjectHash(object))) {
 			return;
 		}
-		readedReferences.add(object.toString());
+		readedReferences.add(getObjectHash(object));
 		
 		try {
 			if (isList(object)) {
