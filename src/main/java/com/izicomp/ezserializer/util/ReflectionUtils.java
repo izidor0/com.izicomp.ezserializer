@@ -39,7 +39,7 @@ public class ReflectionUtils {
 
 	private static void clearCylicReferences(Object object, Set<String> readedReferences, boolean readingGroup) {
 
-		if (!isObject(object) && alreadyRead(object, readedReferences, readingGroup)) {
+		if (!isObject(object) || alreadyRead(object, readedReferences, readingGroup)) {
 			return;
 		}
 		

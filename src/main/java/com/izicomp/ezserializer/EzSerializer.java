@@ -23,11 +23,11 @@ public class EzSerializer {
 			jsonObject.addProperty("xmlObject", ReflectionUtils.toXStreamXml(object));
 
 			this.serializedJson = gson.toJson(jsonObject);
-			Object serializedObject = this.recover(objectName);
-			
 			if (keepSaved) {
 				Utils.write(this.serializedJson, objectName);
 			}
+			Object serializedObject = this.recover(objectName);
+			this.serializedJson = null;
 			return serializedObject;
 
 		} catch (Throwable e) {
@@ -38,14 +38,16 @@ public class EzSerializer {
 	
 	public Object recover(String objectName) {
 		try {
-			if (keepSaved) {
+			String serializedJson = this.serializedJson;
+			
+			if (this.keepSaved) {
 				InputStream inputStream = Utils.read(objectName);
-				this.serializedJson = Utils.streamToString(inputStream, false);
+				serializedJson = Utils.streamToString(inputStream, false);
 			}
-			JsonObject jsonObject = gson.fromJson(this.serializedJson, JsonObject.class);
+			JsonObject jsonObject = gson.fromJson(serializedJson, JsonObject.class);
 			Class<?> clazz = Class.forName(jsonObject.get("className").getAsString());
 			Object object = clazz.newInstance();
-
+			
 			String xml = jsonObject.get("xmlObject").getAsString();
 			return ReflectionUtils.fromXStreamXml(xml, object);
 
@@ -65,11 +67,12 @@ public class EzSerializer {
 	public String toJson(Object object) {
 		try {
 			this.keepSaved = false;
-			Object clonedObject = this.serialize(object, object.getClass().getSimpleName());
+			Object clonedObject = this.clone(object);
 			this.keepSaved = true;
 			
 			ReflectionUtils.clearCylicReferences(clonedObject);
 			return gson.toJson(clonedObject);
+			
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}

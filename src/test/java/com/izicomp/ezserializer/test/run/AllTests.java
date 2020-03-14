@@ -39,7 +39,7 @@ public class AllTests {
 			Person clonedPerson = (Person) ezSerializer.serialize(person, "peter.json");
 
 			if (clonedPerson != null) {
-				System.out.println("Uhuu, serialize ok!");
+				System.out.println("Serialize ok!");
 			}
 		} catch (Throwable e) {
 			e.printStackTrace();
@@ -67,8 +67,7 @@ public class AllTests {
 
 			EzSerializer ezSerializer = new EzSerializer();
 			Person clonedPerson = (Person) ezSerializer.clone(person);
-			System.out.println("Person hash: " + person.hashCode() + ", Cloned Person hash: " + clonedPerson.hashCode());
-			System.out.println("Clone success! =)");
+			System.out.println("Clone success! Person hash: " + person.hashCode() + ", Cloned Person hash: " + clonedPerson.hashCode());
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
@@ -98,7 +97,7 @@ public class AllTests {
 			String json = ezSerializer.toJson(person);
 
 			if (json != null) {
-				System.out.println("toJson() Sucess! " + json);
+				System.out.println("To json Success! " + json);
 			}
 		} catch (Throwable e) {
 			e.printStackTrace();
