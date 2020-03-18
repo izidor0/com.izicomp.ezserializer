@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -33,7 +34,7 @@ public class ReflectionUtils {
 	}
 
 	public static void clearCylicReferences(Object object) {
-		clearCylicReferences(object, new HashSet<String>(), false);
+		clearCylicReferences(object, new LinkedHashSet<String>(), false);
 	}
 
 	private static void clearCylicReferences(Object object, Set<String> readedReferences, boolean readingGroup) {
