@@ -159,6 +159,8 @@ public class ReflectionUtils {
 							
 							if(hasNext) {
 								Method nextMethod = findMethodByRegexName(fieldValue, ".*\\.next\\(\\).*");
+								nextMethod.setAccessible(true);
+								
 								Object objectItem = nextMethod.invoke(fieldValue);
 								loadLazyFields(objectItem, readedReferences);
 							}
