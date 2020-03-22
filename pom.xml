@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.izicomp</groupId>
 	<artifactId>ezserializer</artifactId>
-	<version>1.0.5-SNAPSHOT</version>
+	<version>1.0.6-SNAPSHOT</version>
 
 	<dependencies>
 		<dependency>
@@ -82,7 +82,7 @@
 				<configuration>
 					<serverId>ossrh</serverId>
 					<nexusUrl>https://oss.sonatype.org/</nexusUrl>
-					<autoReleaseAfterClose>true</autoReleaseAfterClose>
+					<!-- <autoReleaseAfterClose>true</autoReleaseAfterClose> -->
 				</configuration>
 			</plugin>
 
