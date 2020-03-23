@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.izidor0</groupId>
 	<artifactId>ezserializer</artifactId>
-	<version>1.0.9-SNAPSHOT</version>
+	<version>1.0.9</version>
 
 	<dependencies>
 		<dependency>
@@ -22,7 +22,7 @@
 		<url>https://github.com/izidor0/com.izicomp.ezserializer</url>
 		<connection>scm:git:git@github.com:izidor0/com.izicomp.ezserializer.git</connection>
 		<developerConnection>scm:git:git@github.com:izidor0/com.izicomp.ezserializer.git</developerConnection>
-		<tag>HEAD</tag>
+		<tag>ezserializer-1.0.9</tag>
 	</scm>
 
 	<distributionManagement>
