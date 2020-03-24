@@ -4,7 +4,16 @@
 	<groupId>com.github.izidor0</groupId>
 	<artifactId>ezserializer</artifactId>
 	<version>1.0.11-SNAPSHOT</version>
+	
 	<name>ezserializer</name>
+	<description>Easy and simple serializer for any object</description>
+	<url>https://github.com/izidor0/com.izicomp.ezserializer/</url>
+
+	<organization>
+		<url>https://github.com/izidor0</url>
+		<name>izidor0</name>
+	</organization>
+	<inceptionYear>2020</inceptionYear>
 
 	<dependencies>
 		<dependency>
